@@ -1,8 +1,8 @@
 package geonames
 
 import (
-	"encoding/csv"
 	"fmt"
+	"geonames/csv"
 	"github.com/krolaw/zipstream"
 	"io"
 )
@@ -23,7 +23,7 @@ func Stream(r io.Reader, filename string, handler func(columns []string) error) 
 			r := csv.NewReader(archive)
 			r.Comma = '\t'
 			r.Comment = '#'
-			r.LazyQuotes = true
+			r.ReuseRecord = true
 
 			for {
 				columns, err := r.Read()
@@ -32,7 +32,6 @@ func Stream(r io.Reader, filename string, handler func(columns []string) error) 
 				}
 
 				if err != nil {
-					fmt.Println(columns)
 					return err
 				}
 

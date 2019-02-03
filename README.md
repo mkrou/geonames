@@ -16,7 +16,7 @@
 |🚫|admin1CodesASCII.txt||
 |🚫|admin2Codes.txt||
 |🚫|adminCode5.zip||
-|🚫|allCountries.zip||
+|✅|allCountries.zip||
 |🚫|alternateNames.zip|depricated, use alternateNamesV2.zip instead|
 |🚫|alternateNamesDeletes-xxxx-xx-xx.txt||
 |🚫|alternateNamesModifications-xxxx-xx-xx.txt||
