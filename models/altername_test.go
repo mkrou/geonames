@@ -35,9 +35,7 @@ func TestParseAltername(t *testing.T) {
 				So(*b, ShouldResemble, *a)
 			})
 		})
-
 	})
-
 }
 
 func (a *Altername) toArray() []string {

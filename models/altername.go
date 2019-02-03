@@ -101,6 +101,5 @@ func parseDate(date string) time.Time {
 		return res
 	}
 
-	fmt.Println(date)
 	return time.Time{}
 }

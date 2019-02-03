@@ -45,9 +45,7 @@ func TestParseGeoname(t *testing.T) {
 				So(*b, ShouldResemble, *a)
 			})
 		})
-
 	})
-
 }
 
 func (g *Geoname) toArray() []string {
