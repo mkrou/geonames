@@ -21,9 +21,9 @@ func main() {
 	count := 0
 	since := time.Now()
 	err := p.GetGeonames(geonames.Cities500, func(geoname *models.Geoname) error {
-		w.Text(fmt.Sprintf("%d: %s", geoname.Id, geoname.Name))
-
 		count++
+		w.Text(fmt.Sprintf("%d: %s", count, geoname.Name))
+
 		return nil
 	})
 	if err != nil {
