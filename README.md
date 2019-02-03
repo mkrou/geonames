@@ -21,7 +21,7 @@
 |🚫|alternateNamesDeletes-xxxx-xx-xx.txt||
 |🚫|alternateNamesModifications-xxxx-xx-xx.txt||
 |✅|alternateNamesV2.zip||
-|🚫|alternatenames/xx.zip|unimplemented, use alternateNamesV2.zip instead|
+|🚫|alternatenames/xx.zip|depricated, use alternateNamesV2.zip instead|
 |✅|cities1000.zip||
 |✅|cities15000.zip||
 |✅|cities500.zip||
