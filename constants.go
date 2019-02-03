@@ -10,6 +10,7 @@ const (
 	Cities5000     GeoNameFile  = "cities5000.zip"
 	Cities15000    GeoNameFile  = "cities15000.zip"
 	AllCountries   GeoNameFile  = "allCountries.zip"
+	NoCountry      GeoNameFile  = "no-country.zip"
 	AlternateNames AltNameFile  = "alternateNamesV2.zip"
 	LangCodes      LangCodeFile = "iso-languagecodes.txt"
 )

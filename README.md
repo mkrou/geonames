@@ -38,7 +38,7 @@
 |🚫|hierarchy.zip||
 |🚫|iso-languagecodes.txt||
 |🚫|modifications-xxxx-xx-xx.txt||
-|🚫|no-country.zip||
+|✅|no-country.zip||
 |🚫|shapes_all_low.zip||
 |🚫|shapes_simplified_low.json.zip||
 |🚫|timeZones.txt||
