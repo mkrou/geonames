@@ -20,10 +20,16 @@ func main() {
 
 	count := 0
 	since := time.Now()
+	var m runtime.MemStats
+	var max uint64 = 0
 	err := p.GetGeonames(geonames.Cities500, func(geoname *models.Geoname) error {
 		count++
 		w.Text(fmt.Sprintf("%d: %s", count, geoname.Name))
 
+		runtime.ReadMemStats(&m)
+		if max < m.Alloc {
+			max = m.Alloc
+		}
 		return nil
 	})
 	if err != nil {
@@ -35,11 +41,5 @@ func main() {
 	w.PersistWith(spin.Spinner{Frames: []string{"✅"}}, fmt.Sprintf(" Done!"))
 	w.PersistWith(spin.Spinner{Frames: []string{"⛩"}}, fmt.Sprintf("  Cities: %d", count))
 	w.PersistWith(spin.Spinner{Frames: []string{"⏱"}}, fmt.Sprintf("  Duration: %d sec", duration/time.Second))
-	w.PersistWith(spin.Spinner{Frames: []string{"💾️‍"}}, fmt.Sprintf(" Memory: %d Mb", GetMemUsage()))
-}
-
-func GetMemUsage() uint64 {
-	var m runtime.MemStats
-	runtime.ReadMemStats(&m)
-	return m.TotalAlloc / 1024 / 1024
+	w.PersistWith(spin.Spinner{Frames: []string{"💾️‍"}}, fmt.Sprintf(" Memory: %d Mb", max/1024/1024))
 }
