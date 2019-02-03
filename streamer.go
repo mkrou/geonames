@@ -15,6 +15,10 @@ func Stream(r io.Reader, filename string, handler func(columns []string) error) 
 	}
 
 	for err != io.EOF {
+		if err != nil {
+			return err
+		}
+
 		if file.Name == filename {
 			r := csv.NewReader(archive)
 			r.Comma = '\t'
@@ -26,7 +30,9 @@ func Stream(r io.Reader, filename string, handler func(columns []string) error) 
 				if err == io.EOF {
 					break
 				}
-				if err != nil && err != io.EOF {
+
+				if err != nil {
+					fmt.Println(columns)
 					return err
 				}
 

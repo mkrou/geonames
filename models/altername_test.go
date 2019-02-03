@@ -7,29 +7,6 @@ import (
 	"time"
 )
 
-func (a *Altername) toArray() []string {
-	return []string{
-		strconv.Itoa(a.Id),
-		strconv.Itoa(a.GeonameId),
-		a.IsoLanguage,
-		a.Name,
-		boolToStr(a.IsPreferred),
-		boolToStr(a.IsShort),
-		boolToStr(a.IsColloquial),
-		boolToStr(a.IsHistoric),
-		a.From.Format("2006-02-01"),
-		a.To.Format("2006-02-01"),
-	}
-}
-
-func boolToStr(b bool) string {
-	if b {
-		return "1"
-	} else {
-		return ""
-	}
-}
-
 func TestParseAltername(t *testing.T) {
 	Convey("Given some altername with a starting values", t, func() {
 		from, _ := time.Parse("2006-01-02", "2018-02-02")
@@ -61,4 +38,27 @@ func TestParseAltername(t *testing.T) {
 
 	})
 
+}
+
+func (a *Altername) toArray() []string {
+	return []string{
+		strconv.Itoa(a.Id),
+		strconv.Itoa(a.GeonameId),
+		a.IsoLanguage,
+		a.Name,
+		boolToStr(a.IsPreferred),
+		boolToStr(a.IsShort),
+		boolToStr(a.IsColloquial),
+		boolToStr(a.IsHistoric),
+		a.From.Format("2006-02-01"),
+		a.To.Format("2006-02-01"),
+	}
+}
+
+func boolToStr(b bool) string {
+	if b {
+		return "1"
+	} else {
+		return ""
+	}
 }
