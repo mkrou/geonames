@@ -1,4 +1,4 @@
-package geonames
+package stream
 
 import (
 	"fmt"

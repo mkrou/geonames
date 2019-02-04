@@ -2,13 +2,28 @@ package geonames
 
 import (
 	"geonames/models"
+	"geonames/stream"
 	"io"
 	"net/http"
 	"strings"
 )
 
+const Url = "https://download.geonames.org/export/dump/"
+
+type GeoNameFile string
+type AltNameFile string
+type LangCodeFile string
+
+//List of dump archives
 const (
-	Url = "https://download.geonames.org/export/dump/"
+	Cities500      GeoNameFile  = "cities500.zip"
+	Cities1000     GeoNameFile  = "cities1000.zip"
+	Cities5000     GeoNameFile  = "cities5000.zip"
+	Cities15000    GeoNameFile  = "cities15000.zip"
+	AllCountries   GeoNameFile  = "allCountries.zip"
+	NoCountry      GeoNameFile  = "no-country.zip"
+	AlternateNames AltNameFile  = "alternateNamesV2.zip"
+	LangCodes      LangCodeFile = "iso-languagecodes.txt"
 )
 
 type Parser func(file string) (io.ReadCloser, error)
@@ -52,7 +67,7 @@ func (p Parser) get(archive string, handler func(columns []string) error) error 
 		return err
 	}
 
-	return Stream(r, defaultFilename(archive), func(columns []string) error {
+	return stream.Stream(r, defaultFilename(archive), func(columns []string) error {
 		return handler(columns)
 	})
 }
