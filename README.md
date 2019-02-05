@@ -26,7 +26,7 @@
 |✅|cities15000.zip|Parser.GetGeonames|
 |✅|cities500.zip|Parser.GetGeonames|
 |✅|cities5000.zip|Parser.GetGeonames|
-|🚫|countryInfo.txt|Parser.GetGeonames|
+|🚫|countryInfo.txt||
 |🚫|deletes-xxxx-xx-xx.txt||
 |🚫|featureCodes_bg.txt||
 |🚫|featureCodes_en.txt||
