@@ -44,6 +44,12 @@
 |🚫|timeZones.txt||
 |🚫|userTags.zip||
 
+## Installation
+
+```bash 
+$ go get github.com/mkrou/geonames
+```
+
 ## Quick start
 
 #### Parsing cities
@@ -86,7 +92,7 @@ import (
 func main() {
     p := geonames.NewParser()
     
-    err :=p.GetAlternames(geonames.AlternateNames, func(geoname *models.Altername) error {
+    err := p.GetAlternames(geonames.AlternateNames, func(geoname *models.Altername) error {
         fmt.Println(geoname.Name)
         return nil
     })
@@ -110,7 +116,7 @@ import (
 func main() {
     p := geonames.NewParser()
     
-    err :=p.GetGeonames("AD.zip", func(geoname *models.Geoname) error {
+    err := p.GetGeonames("AD.zip", func(geoname *models.Geoname) error {
         fmt.Println(geoname.Name)
         return nil
     })
@@ -118,7 +124,7 @@ func main() {
         log.Fatal(err)
     }
     
-    err =p.GetAlternames("alternames/AD.zip", func(geoname *models.Altername) error {
+    err = p.GetAlternames("alternames/AD.zip", func(geoname *models.Altername) error {
         fmt.Println(geoname.Name)
         return nil
     })
