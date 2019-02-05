@@ -14,7 +14,7 @@ import (
 func main() {
 	p := geonames.NewParser()
 
-	w := wow.New(os.Stdout, spin.Spinner{Frames: []string{"⚙️"}}, "  Parsing all cities with a population > 500...")
+	w := wow.New(os.Stdout, spin.Spinner{Frames: []string{"⚙️"}}, "  Parsing all cities with a population > 5000...")
 	w.Persist()
 	w.Text("").Spinner(spin.Get(spin.Earth)).Start()
 
@@ -22,7 +22,7 @@ func main() {
 	since := time.Now()
 	var m runtime.MemStats
 	var max uint64 = 0
-	err := p.GetGeonames(geonames.Cities500, func(geoname *models.Geoname) error {
+	err := p.GetGeonames(geonames.Cities5000, func(geoname *models.Geoname) error {
 		count++
 		w.Text(fmt.Sprintf("%d: %s", count, geoname.Name))
 

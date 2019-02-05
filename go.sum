@@ -1,5 +1,3 @@
-github.com/gernest/wow v0.1.0 h1:g9xdwCwP0+xgVYlA2sopI0gZHqXe7HjI/7/LykG4fks=
-github.com/gernest/wow v0.1.0/go.mod h1:dEPabJRi5BneI1Nev1VWo0ZlcTWibHWp43qxKms4elY=
 github.com/gernest/wow v0.1.1-0.20190121092615-f84922eda44e h1:2hgOBUuaEcpmdJmQqTy2mNrJbX5UE72EVgQd/sGlkaY=
 github.com/gernest/wow v0.1.1-0.20190121092615-f84922eda44e/go.mod h1:GYx8ZxxaH4ulBnjb+tu/lhYdYiTzHDOVccP5PkSPhKk=
 github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e h1:JKmoR8x90Iww1ks85zJ1lfDGgIiMDuIptTOhJq+zKyg=
