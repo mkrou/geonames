@@ -1,10 +1,11 @@
 package geonames
 
 import (
-	"geonames/models"
-	"geonames/stream"
+	"github.com/mkrou/geonames/models"
+	"github.com/mkrou/geonames/stream"
 	"io"
 	"net/http"
+	"path/filepath"
 	"strings"
 )
 
@@ -40,7 +41,7 @@ func NewParser() Parser {
 }
 
 func defaultFilename(archive string) string {
-	return strings.Replace(string(archive), ".zip", ".txt", 1)
+	return strings.Replace(filepath.Base(archive), ".zip", ".txt", 1)
 }
 
 func (p Parser) getArchive(archive string, handler func(columns []string) error) error {
@@ -76,8 +77,8 @@ func (p Parser) GetGeonames(archive GeoNameFile, handler func(*models.Geoname) e
 	})
 }
 
-func (p Parser) GetAlternames(handler func(*models.Altername) error) error {
-	return p.getArchive(string(AlternateNames), func(columns []string) error {
+func (p Parser) GetAlternames(archive AltNameFile, handler func(*models.Altername) error) error {
+	return p.getArchive(string(archive), func(columns []string) error {
 		model, err := models.ParseAltername(columns)
 		if err != nil {
 			return err

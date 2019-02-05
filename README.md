@@ -12,21 +12,21 @@
 
 |status|archive|comment|
 |---|---|---|
-|🚫|xx.zip|unimplemented, use allCountries.zip instead|
+|✅|xx.zip|Parser.GetGeonames; See [readme](#parsing-alphabetical-list-of-archives)|
 |🚫|admin1CodesASCII.txt||
 |🚫|admin2Codes.txt||
 |🚫|adminCode5.zip||
-|✅|allCountries.zip||
+|✅|allCountries.zip|Parser.GetGeonames|
 |🚫|alternateNames.zip|depricated, use alternateNamesV2.zip instead|
 |🚫|alternateNamesDeletes-xxxx-xx-xx.txt||
 |🚫|alternateNamesModifications-xxxx-xx-xx.txt||
-|✅|alternateNamesV2.zip||
-|🚫|alternatenames/xx.zip|depricated, use alternateNamesV2.zip instead|
-|✅|cities1000.zip||
-|✅|cities15000.zip||
-|✅|cities500.zip||
-|✅|cities5000.zip||
-|🚫|countryInfo.txt||
+|✅|alternateNamesV2.zip|Parser.GetAlternames|
+|✅|alternatenames/xx.zip|Parser.GetAlternames; See [readme](#parsing-alphabetical-list-of-archives)|
+|✅|cities1000.zip|Parser.GetGeonames|
+|✅|cities15000.zip|Parser.GetGeonames|
+|✅|cities500.zip|Parser.GetGeonames|
+|✅|cities5000.zip|Parser.GetGeonames|
+|🚫|countryInfo.txt|Parser.GetGeonames|
 |🚫|deletes-xxxx-xx-xx.txt||
 |🚫|featureCodes_bg.txt||
 |🚫|featureCodes_en.txt||
@@ -36,10 +36,90 @@
 |🚫|featureCodes_ru.txt||
 |🚫|featureCodes_sv.txt||
 |🚫|hierarchy.zip||
-|✅|iso-languagecodes.txt||
+|✅|iso-languagecodes.txt|Parser.GetLanguages|
 |🚫|modifications-xxxx-xx-xx.txt||
-|✅|no-country.zip||
+|✅|no-country.zip|Parser.GetGeonames|
 |🚫|shapes_all_low.zip||
 |🚫|shapes_simplified_low.json.zip||
 |🚫|timeZones.txt||
 |🚫|userTags.zip||
+
+## Quick start
+
+#### Parsing cities
+```go
+
+package main
+
+import (
+	"fmt"
+	"github.com/mkrou/geonames"
+	"github.com/mkrou/geonames/models"
+	"log"
+)
+
+func main() {
+	p := geonames.NewParser()
+	//print all cities with a population greater then 5000
+	err := p.GetGeonames(geonames.Cities5000, func(geoname *models.Geoname) error {
+        fmt.Println(geoname.Name)
+		return nil
+	})
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+}
+
+```
+#### Parsing alternames
+
+```go
+package main
+
+import (
+	"fmt"
+    "github.com/mkrou/geonames"
+    "github.com/mkrou/geonames/models"
+    "log"
+)
+func main() {
+	p := geonames.NewParser()
+    err :=p.GetAlternames(geonames.AlternateNames, func(geoname *models.Altername) error {
+        fmt.Println(geoname.Name)
+        return nil
+    })
+    if err != nil {
+        log.Fatal(err)
+        return
+    }
+}
+```
+
+#### Parsing alphabetical list of archives
+
+```go
+package main
+
+import (
+	"fmt"
+    "github.com/mkrou/geonames"
+    "github.com/mkrou/geonames/models"
+    "log"
+)
+func main() {
+    p := geonames.NewParser()
+    err :=p.GetGeonames("AD.zip", func(geoname *models.Geoname) error {
+        fmt.Println(geoname.Name)
+        return nil
+    })
+    err =p.GetAlternames("alternames/AD.zip", func(geoname *models.Altername) error {
+        fmt.Println(geoname.Name)
+        return nil
+    })
+    if err != nil {
+        log.Fatal(err)
+        return
+    }
+}
+```

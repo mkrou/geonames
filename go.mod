@@ -1,4 +1,4 @@
-module geonames
+module github.com/mkrou/geonames
 
 require (
 	github.com/gernest/wow v0.1.1-0.20190121092615-f84922eda44e

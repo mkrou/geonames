@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"geonames"
-	"geonames/models"
 	"github.com/gernest/wow"
 	"github.com/gernest/wow/spin"
+	"github.com/mkrou/geonames"
+	"github.com/mkrou/geonames/models"
 	"os"
 	"runtime"
 	"time"

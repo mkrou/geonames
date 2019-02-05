@@ -2,8 +2,8 @@ package stream
 
 import (
 	"fmt"
-	"geonames/csv"
 	"github.com/krolaw/zipstream"
+	"github.com/mkrou/geonames/csv"
 	"io"
 )
 

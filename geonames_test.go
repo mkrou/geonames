@@ -1,7 +1,7 @@
 package geonames
 
 import (
-	"geonames/models"
+	"github.com/mkrou/geonames/models"
 	. "github.com/smartystreets/goconvey/convey"
 	"testing"
 )
@@ -11,7 +11,22 @@ func TestIntegrationParser_GetAlternames(t *testing.T) {
 		p := NewParser()
 
 		Convey("When alternames is parsed", func() {
-			err := p.GetAlternames(func(_ *models.Altername) error {
+			err := p.GetAlternames(AlternateNames, func(_ *models.Altername) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
+func TestIntegrationParser_GetAlphabeticalAlternames(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When alternames is parsed", func() {
+			err := p.GetAlternames("alternatenames/AD.zip", func(_ *models.Altername) error {
 				return nil
 			})
 
