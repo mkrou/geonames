@@ -52,23 +52,23 @@
 package main
 
 import (
-	"fmt"
-	"github.com/mkrou/geonames"
-	"github.com/mkrou/geonames/models"
-	"log"
+    "fmt"
+    "github.com/mkrou/geonames"
+    "github.com/mkrou/geonames/models"
+    "log"
 )
 
 func main() {
-	p := geonames.NewParser()
-	//print all cities with a population greater then 5000
-	err := p.GetGeonames(geonames.Cities5000, func(geoname *models.Geoname) error {
-        fmt.Println(geoname.Name)
-		return nil
-	})
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
+    p := geonames.NewParser()
+    
+    //print all cities with a population greater then 5000
+    err := p.GetGeonames(geonames.Cities5000, func(geoname *models.Geoname) error {
+    fmt.Println(geoname.Name)
+        return nil
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
 }
 
 ```
@@ -78,20 +78,20 @@ func main() {
 package main
 
 import (
-	"fmt"
+    "fmt"
     "github.com/mkrou/geonames"
     "github.com/mkrou/geonames/models"
     "log"
 )
 func main() {
-	p := geonames.NewParser()
+    p := geonames.NewParser()
+    
     err :=p.GetAlternames(geonames.AlternateNames, func(geoname *models.Altername) error {
         fmt.Println(geoname.Name)
         return nil
     })
     if err != nil {
         log.Fatal(err)
-        return
     }
 }
 ```
@@ -102,24 +102,28 @@ func main() {
 package main
 
 import (
-	"fmt"
+    "fmt"
     "github.com/mkrou/geonames"
     "github.com/mkrou/geonames/models"
     "log"
 )
 func main() {
     p := geonames.NewParser()
+    
     err :=p.GetGeonames("AD.zip", func(geoname *models.Geoname) error {
         fmt.Println(geoname.Name)
         return nil
     })
+    if err != nil {
+        log.Fatal(err)
+    }
+    
     err =p.GetAlternames("alternames/AD.zip", func(geoname *models.Altername) error {
         fmt.Println(geoname.Name)
         return nil
     })
     if err != nil {
         log.Fatal(err)
-        return
     }
 }
 ```
