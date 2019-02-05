@@ -22,6 +22,22 @@ func TestIntegrationParser_GetAlternames(t *testing.T) {
 	})
 }
 
+func cityTest(t *testing.T, archive GeoNameFile, msg string) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey(msg, func() {
+			err := p.GetGeonames(archive, func(geoname *models.Geoname) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
+
 func TestIntegrationParser_GetGeonames500(t *testing.T) {
 	cityTest(t, Cities500, "When all cities with a population > 500 are parsed")
 }
@@ -46,12 +62,12 @@ func TestIntegrationParser_GetGeonamesWithoutCountry(t *testing.T) {
 	cityTest(t, NoCountry, "When all cities without countries are parsed")
 }
 
-func cityTest(t *testing.T, archive GeoNameFile, msg string) {
+func TestIntegrationParser_GetLanguages(t *testing.T) {
 	Convey("Given a default parser", t, func() {
 		p := NewParser()
 
-		Convey(msg, func() {
-			err := p.GetGeonames(archive, func(geoname *models.Geoname) error {
+		Convey("When languages is parsed", func() {
+			err := p.GetLanguages(func(_ *models.Language) error {
 				return nil
 			})
 

@@ -39,8 +39,34 @@ func NewParser() Parser {
 	})
 }
 
+func defaultFilename(archive string) string {
+	return strings.Replace(string(archive), ".zip", ".txt", 1)
+}
+
+func (p Parser) getArchive(archive string, handler func(columns []string) error) error {
+	r, err := p(archive)
+	if err != nil {
+		return err
+	}
+
+	return stream.StreamArchive(r, defaultFilename(archive), func(columns []string) error {
+		return handler(columns)
+	})
+}
+
+func (p Parser) getFile(archive string, handler func(columns []string) error) error {
+	r, err := p(archive)
+	if err != nil {
+		return err
+	}
+
+	return stream.StreamFile(r, func(columns []string) error {
+		return handler(columns)
+	})
+}
+
 func (p Parser) GetGeonames(archive GeoNameFile, handler func(*models.Geoname) error) error {
-	return p.get(string(archive), func(columns []string) error {
+	return p.getArchive(string(archive), func(columns []string) error {
 		model, err := models.ParseGeoname(columns)
 		if err != nil {
 			return err
@@ -51,7 +77,7 @@ func (p Parser) GetGeonames(archive GeoNameFile, handler func(*models.Geoname) e
 }
 
 func (p Parser) GetAlternames(handler func(*models.Altername) error) error {
-	return p.get(string(AlternateNames), func(columns []string) error {
+	return p.getArchive(string(AlternateNames), func(columns []string) error {
 		model, err := models.ParseAltername(columns)
 		if err != nil {
 			return err
@@ -61,17 +87,13 @@ func (p Parser) GetAlternames(handler func(*models.Altername) error) error {
 	})
 }
 
-func (p Parser) get(archive string, handler func(columns []string) error) error {
-	r, err := p(archive)
-	if err != nil {
-		return err
-	}
+func (p Parser) GetLanguages(handler func(language *models.Language) error) error {
+	return p.getFile(string(LangCodes), func(columns []string) error {
+		model, err := models.ParseLanguage(columns)
+		if err != nil {
+			return err
+		}
 
-	return stream.Stream(r, defaultFilename(archive), func(columns []string) error {
-		return handler(columns)
+		return handler(model)
 	})
-}
-
-func defaultFilename(archive string) string {
-	return strings.Replace(string(archive), ".zip", ".txt", 1)
 }

@@ -36,7 +36,7 @@
 |🚫|featureCodes_ru.txt||
 |🚫|featureCodes_sv.txt||
 |🚫|hierarchy.zip||
-|🚫|iso-languagecodes.txt||
+|✅|iso-languagecodes.txt||
 |🚫|modifications-xxxx-xx-xx.txt||
 |✅|no-country.zip||
 |🚫|shapes_all_low.zip||
