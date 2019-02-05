@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 )
@@ -18,6 +17,8 @@ isHistoric        : '1', if this alternate name is historic and was used in the 
 from		  : from period when the name was used
 to		  : to period when the name was used
 */
+
+const AlternameFields = 10
 
 type Altername struct {
 	Id           int
@@ -44,10 +45,6 @@ func getBool(val string) bool {
 }
 
 func ParseAltername(parts []string) (*Altername, error) {
-	if len(parts) != 10 {
-		return nil, fmt.Errorf("Line contains wrong number of columns: %d", len(parts))
-	}
-
 	id, err := strconv.Atoi(parts[0])
 	if err != nil {
 		return nil, err

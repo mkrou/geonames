@@ -46,7 +46,7 @@ func defaultFilename(archive string) string {
 	return strings.Replace(filepath.Base(archive), ".zip", ".txt", 1)
 }
 
-func (p Parser) getArchive(archive string, handler func(columns []string) error, skipHeaders bool) error {
+func (p Parser) getArchive(archive string, handler func(columns []string) error, skipHeaders bool, fieldsPerRecord int) error {
 	r, err := p(archive)
 	if err != nil {
 		return err
@@ -54,10 +54,10 @@ func (p Parser) getArchive(archive string, handler func(columns []string) error,
 
 	return stream.StreamArchive(r, defaultFilename(archive), func(columns []string) error {
 		return handler(columns)
-	}, skipHeaders)
+	}, skipHeaders, fieldsPerRecord)
 }
 
-func (p Parser) getFile(archive string, handler func(columns []string) error, skipHeaders bool) error {
+func (p Parser) getFile(archive string, handler func(columns []string) error, skipHeaders bool, fieldsPerRecord int) error {
 	r, err := p(archive)
 	if err != nil {
 		return err
@@ -65,7 +65,7 @@ func (p Parser) getFile(archive string, handler func(columns []string) error, sk
 
 	return stream.StreamFile(r, func(columns []string) error {
 		return handler(columns)
-	}, skipHeaders)
+	}, skipHeaders, fieldsPerRecord)
 }
 
 func (p Parser) GetGeonames(archive GeoNameFile, handler func(*models.Geoname) error) error {
@@ -76,7 +76,7 @@ func (p Parser) GetGeonames(archive GeoNameFile, handler func(*models.Geoname) e
 		}
 
 		return handler(model)
-	}, false)
+	}, false, models.GeonameFields)
 }
 
 func (p Parser) GetAlternames(archive AltNameFile, handler func(*models.Altername) error) error {
@@ -87,7 +87,7 @@ func (p Parser) GetAlternames(archive AltNameFile, handler func(*models.Alternam
 		}
 
 		return handler(model)
-	}, false)
+	}, false, models.AlternameFields)
 }
 
 func (p Parser) GetLanguages(handler func(language *models.Language) error) error {
@@ -98,7 +98,7 @@ func (p Parser) GetLanguages(handler func(language *models.Language) error) erro
 		}
 
 		return handler(model)
-	}, true)
+	}, true, models.LanguageFields)
 }
 
 func (p Parser) GetTimeZones(handler func(language *models.TimeZone) error) error {
@@ -109,5 +109,5 @@ func (p Parser) GetTimeZones(handler func(language *models.TimeZone) error) erro
 		}
 
 		return handler(model)
-	}, true)
+	}, true, models.TimeZoneFields)
 }

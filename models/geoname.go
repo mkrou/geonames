@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -29,6 +28,8 @@ timezone          : the iana timezone id (see file timeZone.txt) varchar(40)
 modification date : date of last modification in yyyy-MM-dd format
 */
 
+const GeonameFields = 19
+
 type Geoname struct {
 	Id                    int
 	Name                  string
@@ -52,10 +53,6 @@ type Geoname struct {
 }
 
 func ParseGeoname(parts []string) (*Geoname, error) {
-	if len(parts) != 19 {
-		return nil, fmt.Errorf("Line contains wrong number of columns: %d", len(parts))
-	}
-
 	id, err := strconv.Atoi(parts[0])
 	if err != nil {
 		return nil, err

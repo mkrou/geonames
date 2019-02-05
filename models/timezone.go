@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -10,6 +9,9 @@ import (
 // GMT offset 1. Jan 2019
 // DST offset 1. Jul 2019
 // rawOffset (independant of DST)
+
+const TimeZoneFields = 5
+
 type TimeZone struct {
 	Id          string
 	CountryCode string
@@ -19,10 +21,6 @@ type TimeZone struct {
 }
 
 func ParseTimeZone(parts []string) (*TimeZone, error) {
-	if len(parts) != 5 {
-		return nil, fmt.Errorf("Line contains wrong number of columns: %d", len(parts))
-	}
-
 	gmt, err := strconv.ParseFloat(parts[2], 64)
 	if err != nil {
 		return nil, err
