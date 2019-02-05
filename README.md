@@ -41,7 +41,7 @@
 |✅|no-country.zip|Parser.GetGeonames|
 |🚫|shapes_all_low.zip||
 |🚫|shapes_simplified_low.json.zip||
-|✅|timeZones.txt||
+|✅|timeZones.txt|Parser.GetTimeZones|
 |🚫|userTags.zip||
 
 ## Installation
