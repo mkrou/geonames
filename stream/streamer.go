@@ -7,7 +7,7 @@ import (
 	"io"
 )
 
-func StreamArchive(r io.Reader, filename string, handler func(columns []string) error) error {
+func StreamArchive(r io.Reader, filename string, handler func(columns []string) error, skipHeaders bool) error {
 	archive := zipstream.NewReader(r)
 	file, err := archive.Next()
 	if err != nil && err != io.EOF {
@@ -20,7 +20,7 @@ func StreamArchive(r io.Reader, filename string, handler func(columns []string) 
 		}
 
 		if file.Name == filename {
-			return StreamFile(archive, handler)
+			return StreamFile(archive, handler, skipHeaders)
 		}
 
 		file, err = archive.Next()
@@ -29,11 +29,16 @@ func StreamArchive(r io.Reader, filename string, handler func(columns []string) 
 	return fmt.Errorf("Archive doesnt contain the file %s", filename)
 }
 
-func StreamFile(reader io.Reader, handler func(columns []string) error) error {
+func StreamFile(reader io.Reader, handler func(columns []string) error, skipHeaders bool) error {
 	r := csv.NewReader(reader)
 	r.Comma = '\t'
 	r.Comment = '#'
 	r.ReuseRecord = true
+	if skipHeaders {
+		if _, err := r.Read(); err != nil && err != io.EOF {
+			return err
+		}
+	}
 
 	for {
 		columns, err := r.Read()

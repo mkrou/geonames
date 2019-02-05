@@ -14,6 +14,7 @@ const Url = "https://download.geonames.org/export/dump/"
 type GeoNameFile string
 type AltNameFile string
 type LangCodeFile string
+type TimeZoneFile string
 
 //List of dump archives
 const (
@@ -25,6 +26,7 @@ const (
 	NoCountry      GeoNameFile  = "no-country.zip"
 	AlternateNames AltNameFile  = "alternateNamesV2.zip"
 	LangCodes      LangCodeFile = "iso-languagecodes.txt"
+	TimeZones      TimeZoneFile = "timeZones.txt"
 )
 
 type Parser func(file string) (io.ReadCloser, error)
@@ -44,7 +46,7 @@ func defaultFilename(archive string) string {
 	return strings.Replace(filepath.Base(archive), ".zip", ".txt", 1)
 }
 
-func (p Parser) getArchive(archive string, handler func(columns []string) error) error {
+func (p Parser) getArchive(archive string, handler func(columns []string) error, skipHeaders bool) error {
 	r, err := p(archive)
 	if err != nil {
 		return err
@@ -52,10 +54,10 @@ func (p Parser) getArchive(archive string, handler func(columns []string) error)
 
 	return stream.StreamArchive(r, defaultFilename(archive), func(columns []string) error {
 		return handler(columns)
-	})
+	}, skipHeaders)
 }
 
-func (p Parser) getFile(archive string, handler func(columns []string) error) error {
+func (p Parser) getFile(archive string, handler func(columns []string) error, skipHeaders bool) error {
 	r, err := p(archive)
 	if err != nil {
 		return err
@@ -63,7 +65,7 @@ func (p Parser) getFile(archive string, handler func(columns []string) error) er
 
 	return stream.StreamFile(r, func(columns []string) error {
 		return handler(columns)
-	})
+	}, skipHeaders)
 }
 
 func (p Parser) GetGeonames(archive GeoNameFile, handler func(*models.Geoname) error) error {
@@ -74,7 +76,7 @@ func (p Parser) GetGeonames(archive GeoNameFile, handler func(*models.Geoname) e
 		}
 
 		return handler(model)
-	})
+	}, false)
 }
 
 func (p Parser) GetAlternames(archive AltNameFile, handler func(*models.Altername) error) error {
@@ -85,7 +87,7 @@ func (p Parser) GetAlternames(archive AltNameFile, handler func(*models.Alternam
 		}
 
 		return handler(model)
-	})
+	}, false)
 }
 
 func (p Parser) GetLanguages(handler func(language *models.Language) error) error {
@@ -96,5 +98,16 @@ func (p Parser) GetLanguages(handler func(language *models.Language) error) erro
 		}
 
 		return handler(model)
-	})
+	}, true)
+}
+
+func (p Parser) GetTimeZones(handler func(language *models.TimeZone) error) error {
+	return p.getFile(string(TimeZones), func(columns []string) error {
+		model, err := models.ParseTimeZone(columns)
+		if err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, true)
 }

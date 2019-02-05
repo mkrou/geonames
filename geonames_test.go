@@ -77,12 +77,32 @@ func TestIntegrationParser_GetGeonamesWithoutCountry(t *testing.T) {
 	cityTest(t, NoCountry, "When all cities without countries are parsed")
 }
 
+func TestIntegrationParser_GetGeonamesAlphabetical(t *testing.T) {
+	cityTest(t, "AD.zip", "When all cities that start with AD are parsed")
+}
+
 func TestIntegrationParser_GetLanguages(t *testing.T) {
 	Convey("Given a default parser", t, func() {
 		p := NewParser()
 
 		Convey("When languages is parsed", func() {
 			err := p.GetLanguages(func(_ *models.Language) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
+
+func TestIntegrationParser_GetTimeZones(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When time zones is parsed", func() {
+			err := p.GetTimeZones(func(_ *models.TimeZone) error {
 				return nil
 			})
 
