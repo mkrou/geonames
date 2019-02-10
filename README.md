@@ -13,8 +13,8 @@
 |status|archive|comment|
 |---|---|---|
 |✅|xx.zip|GetGeonames; See [readme](#parsing-alphabetical-list-of-archives)|
-|🚫|admin1CodesASCII.txt||
-|🚫|admin2Codes.txt||
+|✅|admin1CodesASCII.txt|GetAdminDivisions|
+|✅|admin2Codes.txt|GetAdminSubdivisions|
 |🚫|adminCode5.zip||
 |✅|allCountries.zip|GetGeonames|
 |⚠️|alternateNames.zip|depricated, use alternateNamesV2.zip instead|

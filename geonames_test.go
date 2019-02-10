@@ -192,3 +192,35 @@ func TestIntegrationParser_GetUserTags(t *testing.T) {
 		})
 	})
 }
+
+func TestIntegrationParser_GetAdminDivisions(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When admin divisions is parsed", func() {
+			err := p.GetAdminDivisions(func(_ *models.AdminDivision) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
+
+func TestIntegrationParser_GetAdminSubDivisions(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When admin sub divisions is parsed", func() {
+			err := p.GetAdminSubdivisions(func(_ *models.AdminSubdivision) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
