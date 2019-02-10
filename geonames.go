@@ -37,6 +37,7 @@ const (
 	FeatureCodeSv  FeatureCode = "featureCodes_sv.txt"
 	Hierarchy      string      = "hierarchy.zip"
 	Shapes         string      = "shapes_all_low.zip"
+	UserTags       string      = "userTags.zip"
 )
 
 type Parser func(file string) (io.ReadCloser, error)
@@ -185,4 +186,20 @@ func (p Parser) GetShapes(handler func(language *models.Shape) error) error {
 
 		return handler(model)
 	})
+}
+
+func (p Parser) GetUserTags(handler func(language *models.UserTag) error) error {
+	headers, err := csvutil.Header(models.UserTag{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getArchive(UserTags, func(parse func(v interface{}) error) error {
+		model := &models.UserTag{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, headers...)
 }

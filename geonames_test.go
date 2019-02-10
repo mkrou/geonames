@@ -176,3 +176,19 @@ func TestIntegrationParser_GetShapes(t *testing.T) {
 		})
 	})
 }
+
+func TestIntegrationParser_GetUserTags(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When user tags is parsed", func() {
+			err := p.GetUserTags(func(_ *models.UserTag) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}

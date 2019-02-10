@@ -42,7 +42,7 @@
 |✅|shapes_all_low.zip|GetShapes|
 |🚫|shapes_simplified_low.json.zip||
 |✅|timeZones.txt|GetTimeZones|
-|🚫|userTags.zip||
+|✅|userTags.zip||
 
 ## Installation
 
