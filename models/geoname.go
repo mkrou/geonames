@@ -1,11 +1,5 @@
 package models
 
-import (
-	"strconv"
-	"strings"
-	"time"
-)
-
 /*
 geonameid         : integer id of record in geonames database
 name              : name of geographical point (utf8) varchar(200)
@@ -28,95 +22,24 @@ timezone          : the iana timezone id (see file timeZone.txt) varchar(40)
 modification date : date of last modification in yyyy-MM-dd format
 */
 
-const GeonameFields = 19
-
 type Geoname struct {
-	Id                    int
-	Name                  string
-	AsciiName             string
-	AlternateNames        []string
-	Latitude              float64
-	Longitude             float64
-	Class                 string
-	Code                  string
-	CountryCode           string
-	AlternateCountryCodes []string
-	Admin1Code            string
-	Admin2Code            string
-	Admin3Code            string
-	Admin4Code            string
-	Population            int
-	Elevation             int
-	DigitalElevationModel int
-	Timezone              string
-	ModificationDate      time.Time
-}
-
-func ParseGeoname(parts []string) (*Geoname, error) {
-	id, err := strconv.Atoi(parts[0])
-	if err != nil {
-		return nil, err
-	}
-
-	aNames := strings.Split(parts[3], ",")
-
-	latitude, err := strconv.ParseFloat(string(parts[4]), 64)
-	if err != nil {
-		return nil, err
-	}
-
-	longitude, err := strconv.ParseFloat(string(parts[5]), 64)
-	if err != nil {
-		return nil, err
-	}
-
-	acc := strings.Split(parts[9], ",")
-
-	population := 0
-	if parts[14] != "" {
-		population, err = strconv.Atoi(parts[14])
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	elevation := 0
-	if parts[15] != "" {
-		elevation, err = strconv.Atoi(parts[15])
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	dem, err := strconv.Atoi(parts[16])
-	if err != nil {
-		return nil, err
-	}
-
-	date, err := time.Parse("2006-01-02", parts[18])
-	if err != nil {
-		return nil, err
-	}
-
-	return &Geoname{
-		Id:                    id,
-		Name:                  parts[1],
-		AsciiName:             parts[2],
-		AlternateNames:        aNames,
-		Latitude:              latitude,
-		Longitude:             longitude,
-		Class:                 parts[6],
-		Code:                  parts[7],
-		CountryCode:           parts[8],
-		AlternateCountryCodes: acc,
-		Admin1Code:            parts[10],
-		Admin2Code:            parts[11],
-		Admin3Code:            parts[12],
-		Admin4Code:            parts[13],
-		Population:            population,
-		Elevation:             elevation,
-		DigitalElevationModel: dem,
-		Timezone:              parts[17],
-		ModificationDate:      date,
-	}, nil
+	Id                    int     `csv:"geonameid"`
+	Name                  string  `csv:"name"`
+	AsciiName             string  `csv:"asciiname"`
+	AlternateNames        string  `csv:"alternatenames"`
+	Latitude              float64 `csv:"latitude"`
+	Longitude             float64 `csv:"longitude"`
+	Class                 string  `csv:"feature class"`
+	Code                  string  `csv:"feature code"`
+	CountryCode           string  `csv:"country code"`
+	AlternateCountryCodes string  `csv:"cc2"`
+	Admin1Code            string  `csv:"admin1 code`
+	Admin2Code            string  `csv:"admin2 code"`
+	Admin3Code            string  `csv:"admin3 code"`
+	Admin4Code            string  `csv:"admin4 code"`
+	Population            int     `csv:"population"`
+	Elevation             int     `csv:"elevation,omitempty"`
+	DigitalElevationModel int     `csv:"dem,omitempty"`
+	Timezone              string  `csv:"timezone"`
+	ModificationDate      Time    `csv:"modification date"`
 }

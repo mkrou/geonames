@@ -1,10 +1,5 @@
 package models
 
-import (
-	"strconv"
-	"time"
-)
-
 /*
 alternateNameId   : the id of this alternate name, int
 geonameid         : geonameId referring to id in table 'geoname', int
@@ -18,19 +13,17 @@ from		  : from period when the name was used
 to		  : to period when the name was used
 */
 
-const AlternameFields = 10
-
 type Altername struct {
-	Id           int
-	GeonameId    int
-	IsoLanguage  string
-	Name         string
-	IsPreferred  bool
-	IsShort      bool
-	IsColloquial bool
-	IsHistoric   bool
-	From         time.Time
-	To           time.Time
+	Id           int    `csv:"alternateNameId"`
+	GeonameId    int    `csv:"geonameid"`
+	IsoLanguage  string `csv:"isolanguage"`
+	Name         string `csv:"alternate name"`
+	IsPreferred  bool   `csv:"isPreferredName,omitempty"`
+	IsShort      bool   `csv:"isShortName,omitempty"`
+	IsColloquial bool   `csv:"isColloquial,omitempty"`
+	IsHistoric   bool   `csv:"isHistoric,omitempty"`
+	From         Time   `csv:"from"`
+	To           Time   `csv:"to"`
 }
 
 func (a *Altername) IsAlpha2() bool {
@@ -38,65 +31,4 @@ func (a *Altername) IsAlpha2() bool {
 }
 func (a *Altername) IsAlpha3() bool {
 	return len(a.IsoLanguage) == 3
-}
-
-func getBool(val string) bool {
-	return val == "1"
-}
-
-func ParseAltername(parts []string) (*Altername, error) {
-	id, err := strconv.Atoi(parts[0])
-	if err != nil {
-		return nil, err
-	}
-
-	geoId, err := strconv.Atoi(parts[1])
-	if err != nil {
-		return nil, err
-	}
-
-	return &Altername{
-		Id:           id,
-		GeonameId:    geoId,
-		IsoLanguage:  parts[2],
-		Name:         parts[3],
-		IsPreferred:  getBool(parts[4]),
-		IsShort:      getBool(parts[5]),
-		IsColloquial: getBool(parts[6]),
-		IsHistoric:   getBool(parts[7]),
-		From:         parseDate(parts[8]),
-		To:           parseDate(parts[9]),
-	}, nil
-}
-
-func parseDate(date string) time.Time {
-	if date == "" {
-		return time.Time{}
-	}
-
-	if res, err := time.Parse("2006-01-02", date); err == nil {
-		return res
-	}
-
-	if res, err := time.Parse("02 January 2006", date); err == nil {
-		return res
-	}
-
-	if res, err := time.Parse("2006", date); err == nil {
-		return res
-	}
-
-	if res, err := time.Parse("200601", date); err == nil {
-		return res
-	}
-
-	if res, err := time.Parse("20060102", date); err == nil {
-		return res
-	}
-
-	if res, err := time.Parse("02-01-2006", date); err == nil {
-		return res
-	}
-
-	return time.Time{}
 }

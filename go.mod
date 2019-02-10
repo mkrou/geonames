@@ -3,6 +3,7 @@ module github.com/mkrou/geonames
 require (
 	github.com/gernest/wow v0.1.1-0.20190121092615-f84922eda44e
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
+	github.com/jszwec/csvutil v1.2.1
 	github.com/jtolds/gls v4.2.1+incompatible // indirect
 	github.com/krolaw/zipstream v0.0.0-20180621105154-0a2661891f94
 	github.com/smartystreets/assertions v0.0.0-20190116191733-b6c0e53d7304 // indirect

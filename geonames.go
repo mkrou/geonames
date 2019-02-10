@@ -1,6 +1,7 @@
 package geonames
 
 import (
+	"github.com/jszwec/csvutil"
 	"github.com/mkrou/geonames/models"
 	"github.com/mkrou/geonames/stream"
 	"io"
@@ -46,68 +47,74 @@ func defaultFilename(archive string) string {
 	return strings.Replace(filepath.Base(archive), ".zip", ".txt", 1)
 }
 
-func (p Parser) getArchive(archive string, handler func(columns []string) error, skipHeaders bool, fieldsPerRecord int) error {
+func (p Parser) getArchive(archive string, handler func(f func(v interface{}) error) error, header ...string) error {
 	r, err := p(archive)
 	if err != nil {
 		return err
 	}
 
-	return stream.StreamArchive(r, defaultFilename(archive), func(columns []string) error {
-		return handler(columns)
-	}, skipHeaders, fieldsPerRecord)
+	return stream.StreamArchive(r, defaultFilename(archive), handler, header)
 }
 
-func (p Parser) getFile(archive string, handler func(columns []string) error, skipHeaders bool, fieldsPerRecord int) error {
-	r, err := p(archive)
+func (p Parser) getFile(file string, handler func(f func(v interface{}) error) error, header ...string) error {
+	r, err := p(file)
 	if err != nil {
 		return err
 	}
 
-	return stream.StreamFile(r, func(columns []string) error {
-		return handler(columns)
-	}, skipHeaders, fieldsPerRecord)
+	return stream.StreamFile(r, handler, header)
 }
 
 func (p Parser) GetGeonames(archive GeoNameFile, handler func(*models.Geoname) error) error {
-	return p.getArchive(string(archive), func(columns []string) error {
-		model, err := models.ParseGeoname(columns)
-		if err != nil {
+	headers, err := csvutil.Header(models.Geoname{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getArchive(string(archive), func(parse func(v interface{}) error) error {
+		model := &models.Geoname{}
+		if err := parse(model); err != nil {
 			return err
 		}
 
 		return handler(model)
-	}, false, models.GeonameFields)
+	}, headers...)
 }
 
 func (p Parser) GetAlternames(archive AltNameFile, handler func(*models.Altername) error) error {
-	return p.getArchive(string(archive), func(columns []string) error {
-		model, err := models.ParseAltername(columns)
-		if err != nil {
+	headers, err := csvutil.Header(models.Altername{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getArchive(string(archive), func(parse func(v interface{}) error) error {
+		model := &models.Altername{}
+		if err := parse(model); err != nil {
 			return err
 		}
 
 		return handler(model)
-	}, false, models.AlternameFields)
+	}, headers...)
 }
 
 func (p Parser) GetLanguages(handler func(language *models.Language) error) error {
-	return p.getFile(string(LangCodes), func(columns []string) error {
-		model, err := models.ParseLanguage(columns)
-		if err != nil {
+	return p.getFile(string(LangCodes), func(parse func(v interface{}) error) error {
+		model := &models.Language{}
+		if err := parse(model); err != nil {
 			return err
 		}
 
 		return handler(model)
-	}, true, models.LanguageFields)
+	})
 }
 
 func (p Parser) GetTimeZones(handler func(language *models.TimeZone) error) error {
-	return p.getFile(string(TimeZones), func(columns []string) error {
-		model, err := models.ParseTimeZone(columns)
-		if err != nil {
+	return p.getFile(string(TimeZones), func(parse func(v interface{}) error) error {
+		model := &models.TimeZone{}
+		if err := parse(model); err != nil {
 			return err
 		}
 
 		return handler(model)
-	}, true, models.TimeZoneFields)
+	})
 }

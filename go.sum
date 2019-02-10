@@ -2,6 +2,8 @@ github.com/gernest/wow v0.1.1-0.20190121092615-f84922eda44e h1:2hgOBUuaEcpmdJmQq
 github.com/gernest/wow v0.1.1-0.20190121092615-f84922eda44e/go.mod h1:GYx8ZxxaH4ulBnjb+tu/lhYdYiTzHDOVccP5PkSPhKk=
 github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e h1:JKmoR8x90Iww1ks85zJ1lfDGgIiMDuIptTOhJq+zKyg=
 github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e/go.mod h1:wJfORRmW1u3UXTncJ5qlYoELFm8eSnnEO6hX4iZ3EWY=
+github.com/jszwec/csvutil v1.2.1 h1:9+vmGqMdYxIbeDmVbTrVryibx2izwHAfKdPwl4GPNHM=
+github.com/jszwec/csvutil v1.2.1/go.mod h1:8YHz6C3KVdIeCxLMvwbbIVDCTA/Wi2df93AZlQNaE2U=
 github.com/jtolds/gls v4.2.1+incompatible h1:fSuqC+Gmlu6l/ZYAoZzx2pyucC8Xza35fpRVWLVmUEE=
 github.com/jtolds/gls v4.2.1+incompatible/go.mod h1:QJZ7F/aHp+rZTRtaJ1ow/lLfFfVYBRgL+9YlvaHOwJU=
 github.com/krolaw/zipstream v0.0.0-20180621105154-0a2661891f94 h1:+AIlO01SKT9sfWU5CLWi0cfHc7dQwgGz3FhFRzXLoMg=

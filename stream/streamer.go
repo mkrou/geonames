@@ -2,12 +2,13 @@ package stream
 
 import (
 	"fmt"
+	"github.com/jszwec/csvutil"
 	"github.com/krolaw/zipstream"
 	"github.com/mkrou/geonames/csv"
 	"io"
 )
 
-func StreamArchive(r io.Reader, filename string, handler func(columns []string) error, skipHeaders bool, fieldsPerRecord int) error {
+func StreamArchive(r io.Reader, filename string, handler func(f func(v interface{}) error) error, missedHeaders []string) error {
 	archive := zipstream.NewReader(r)
 	file, err := archive.Next()
 	if err != nil && err != io.EOF {
@@ -20,7 +21,7 @@ func StreamArchive(r io.Reader, filename string, handler func(columns []string) 
 		}
 
 		if file.Name == filename {
-			return StreamFile(archive, handler, skipHeaders, fieldsPerRecord)
+			return StreamFile(archive, handler, missedHeaders)
 		}
 
 		file, err = archive.Next()
@@ -29,21 +30,19 @@ func StreamArchive(r io.Reader, filename string, handler func(columns []string) 
 	return fmt.Errorf("Archive doesnt contain the file %s", filename)
 }
 
-func StreamFile(reader io.Reader, handler func(columns []string) error, skipHeaders bool, fieldsPerRecord int) error {
+func StreamFile(reader io.Reader, handler func(f func(v interface{}) error) error, missedHeaders []string) error {
 	r := csv.NewReader(reader)
 	r.Comma = '\t'
 	r.Comment = '#'
 	r.ReuseRecord = true
-	r.FieldsPerRecord = fieldsPerRecord
 
-	if skipHeaders {
-		if _, err := r.Read(); err != nil && err != io.EOF {
-			return err
-		}
+	dec, err := csvutil.NewDecoder(r, missedHeaders...)
+	if err != nil {
+		return err
 	}
 
 	for {
-		columns, err := r.Read()
+		err := handler(dec.Decode)
 		if err == io.EOF {
 			break
 		}
@@ -52,9 +51,6 @@ func StreamFile(reader io.Reader, handler func(columns []string) error, skipHead
 			return err
 		}
 
-		if err := handler(columns); err != nil {
-			return err
-		}
 	}
 
 	return nil
