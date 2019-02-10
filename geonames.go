@@ -14,6 +14,7 @@ const Url = "https://download.geonames.org/export/dump/"
 
 type GeoNameFile string
 type AltNameFile string
+type FeatureCode string
 
 //List of dump archives
 const (
@@ -27,6 +28,13 @@ const (
 	LangCodes      string      = "iso-languagecodes.txt"
 	TimeZones      string      = "timeZones.txt"
 	Countries      string      = "countryInfo.txt"
+	FeatureCodeBg  FeatureCode = "featureCodes_bg.txt"
+	FeatureCodeEn  FeatureCode = "featureCodes_en.txt"
+	FeatureCodeNb  FeatureCode = "featureCodes_nb.txt"
+	FeatureCodeNn  FeatureCode = "featureCodes_nn.txt"
+	FeatureCodeNo  FeatureCode = "featureCodes_no.txt"
+	FeatureCodeRu  FeatureCode = "featureCodes_ru.txt"
+	FeatureCodeSv  FeatureCode = "featureCodes_sv.txt"
 )
 
 type Parser func(file string) (io.ReadCloser, error)
@@ -126,6 +134,22 @@ func (p Parser) GetCountries(handler func(language *models.Country) error) error
 
 	return p.getFile(Countries, func(parse func(v interface{}) error) error {
 		model := &models.Country{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, headers...)
+}
+
+func (p Parser) GetFeatureCodes(file FeatureCode, handler func(language *models.FeatureCode) error) error {
+	headers, err := csvutil.Header(models.FeatureCode{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getFile(string(file), func(parse func(v interface{}) error) error {
+		model := &models.FeatureCode{}
 		if err := parse(model); err != nil {
 			return err
 		}

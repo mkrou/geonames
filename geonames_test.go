@@ -128,3 +128,19 @@ func TestIntegrationParser_GetCountries(t *testing.T) {
 		})
 	})
 }
+
+func TestIntegrationParser_GetFeatureCodes(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When feature codes is parsed", func() {
+			err := p.GetFeatureCodes(FeatureCodeRu, func(_ *models.FeatureCode) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
