@@ -17,7 +17,7 @@
 |🚫|admin2Codes.txt||
 |🚫|adminCode5.zip||
 |✅|allCountries.zip|GetGeonames|
-|🚫|alternateNames.zip|depricated, use alternateNamesV2.zip instead|
+|⚠️|alternateNames.zip|depricated, use alternateNamesV2.zip instead|
 |🚫|alternateNamesDeletes-xxxx-xx-xx.txt||
 |🚫|alternateNamesModifications-xxxx-xx-xx.txt||
 |✅|alternateNamesV2.zip|GetAlternames|
