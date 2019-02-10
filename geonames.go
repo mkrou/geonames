@@ -35,6 +35,7 @@ const (
 	FeatureCodeNo  FeatureCode = "featureCodes_no.txt"
 	FeatureCodeRu  FeatureCode = "featureCodes_ru.txt"
 	FeatureCodeSv  FeatureCode = "featureCodes_sv.txt"
+	Hierarchy      string      = "hierarchy.zip"
 )
 
 type Parser func(file string) (io.ReadCloser, error)
@@ -150,6 +151,22 @@ func (p Parser) GetFeatureCodes(file FeatureCode, handler func(language *models.
 
 	return p.getFile(string(file), func(parse func(v interface{}) error) error {
 		model := &models.FeatureCode{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, headers...)
+}
+
+func (p Parser) GetHierarchy(handler func(language *models.Hierarchy) error) error {
+	headers, err := csvutil.Header(models.Hierarchy{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getArchive(Hierarchy, func(parse func(v interface{}) error) error {
+		model := &models.Hierarchy{}
 		if err := parse(model); err != nil {
 			return err
 		}

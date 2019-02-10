@@ -144,3 +144,19 @@ func TestIntegrationParser_GetFeatureCodes(t *testing.T) {
 		})
 	})
 }
+
+func TestIntegrationParser_GetHierarchy(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When hierarchy is parsed", func() {
+			err := p.GetHierarchy(func(_ *models.Hierarchy) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}

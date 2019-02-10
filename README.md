@@ -35,7 +35,7 @@
 |✅|featureCodes_no.txt|GetFeatureCodes|
 |✅|featureCodes_ru.txt|GetFeatureCodes|
 |✅|featureCodes_sv.txt|GetFeatureCodes|
-|🚫|hierarchy.zip||
+|✅|hierarchy.zip|GetHierarchy|
 |✅|iso-languagecodes.txt|GetLanguages|
 |🚫|modifications-xxxx-xx-xx.txt||
 |✅|no-country.zip|GetGeonames|
