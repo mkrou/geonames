@@ -12,21 +12,21 @@
 
 |status|archive|comment|
 |---|---|---|
-|✅|xx.zip|Parser.GetGeonames; See [readme](#parsing-alphabetical-list-of-archives)|
+|✅|xx.zip|GetGeonames; See [readme](#parsing-alphabetical-list-of-archives)|
 |🚫|admin1CodesASCII.txt||
 |🚫|admin2Codes.txt||
 |🚫|adminCode5.zip||
-|✅|allCountries.zip|Parser.GetGeonames|
+|✅|allCountries.zip|GetGeonames|
 |🚫|alternateNames.zip|depricated, use alternateNamesV2.zip instead|
 |🚫|alternateNamesDeletes-xxxx-xx-xx.txt||
 |🚫|alternateNamesModifications-xxxx-xx-xx.txt||
-|✅|alternateNamesV2.zip|Parser.GetAlternames|
-|✅|alternatenames/xx.zip|Parser.GetAlternames; See [readme](#parsing-alphabetical-list-of-archives)|
-|✅|cities1000.zip|Parser.GetGeonames|
-|✅|cities15000.zip|Parser.GetGeonames|
-|✅|cities500.zip|Parser.GetGeonames|
-|✅|cities5000.zip|Parser.GetGeonames|
-|🚫|countryInfo.txt||
+|✅|alternateNamesV2.zip|GetAlternames|
+|✅|alternatenames/xx.zip|GetAlternames; See [readme](#parsing-alphabetical-list-of-archives)|
+|✅|cities1000.zip|GetGeonames|
+|✅|cities15000.zip|GetGeonames|
+|✅|cities500.zip|GetGeonames|
+|✅|cities5000.zip|GetGeonames|
+|✅|countryInfo.txt|GetCountries|
 |🚫|deletes-xxxx-xx-xx.txt||
 |🚫|featureCodes_bg.txt||
 |🚫|featureCodes_en.txt||
@@ -36,12 +36,12 @@
 |🚫|featureCodes_ru.txt||
 |🚫|featureCodes_sv.txt||
 |🚫|hierarchy.zip||
-|✅|iso-languagecodes.txt|Parser.GetLanguages|
+|✅|iso-languagecodes.txt|GetLanguages|
 |🚫|modifications-xxxx-xx-xx.txt||
-|✅|no-country.zip|Parser.GetGeonames|
+|✅|no-country.zip|GetGeonames|
 |🚫|shapes_all_low.zip||
 |🚫|shapes_simplified_low.json.zip||
-|✅|timeZones.txt|Parser.GetTimeZones|
+|✅|timeZones.txt|GetTimeZones|
 |🚫|userTags.zip||
 
 ## Installation
@@ -67,7 +67,7 @@ import (
 func main() {
     p := geonames.NewParser()
     
-    //print all cities with a population greater then 5000
+    //print all cities with a population greater than 5000
     err := p.GetGeonames(geonames.Cities5000, func(geoname *models.Geoname) error {
     fmt.Println(geoname.Name)
         return nil

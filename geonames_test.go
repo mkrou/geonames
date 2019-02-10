@@ -112,3 +112,19 @@ func TestIntegrationParser_GetTimeZones(t *testing.T) {
 		})
 	})
 }
+
+func TestIntegrationParser_GetCountries(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When countries is parsed", func() {
+			err := p.GetCountries(func(_ *models.Country) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
