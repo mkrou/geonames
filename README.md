@@ -39,7 +39,7 @@
 |✅|iso-languagecodes.txt|GetLanguages|
 |🚫|modifications-xxxx-xx-xx.txt||
 |✅|no-country.zip|GetGeonames|
-|🚫|shapes_all_low.zip||
+|✅|shapes_all_low.zip|GetShapes|
 |🚫|shapes_simplified_low.json.zip||
 |✅|timeZones.txt|GetTimeZones|
 |🚫|userTags.zip||

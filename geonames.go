@@ -36,6 +36,7 @@ const (
 	FeatureCodeRu  FeatureCode = "featureCodes_ru.txt"
 	FeatureCodeSv  FeatureCode = "featureCodes_sv.txt"
 	Hierarchy      string      = "hierarchy.zip"
+	Shapes         string      = "shapes_all_low.zip"
 )
 
 type Parser func(file string) (io.ReadCloser, error)
@@ -173,4 +174,15 @@ func (p Parser) GetHierarchy(handler func(language *models.Hierarchy) error) err
 
 		return handler(model)
 	}, headers...)
+}
+
+func (p Parser) GetShapes(handler func(language *models.Shape) error) error {
+	return p.getArchive(Shapes, func(parse func(v interface{}) error) error {
+		model := &models.Shape{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	})
 }

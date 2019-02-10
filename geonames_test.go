@@ -160,3 +160,19 @@ func TestIntegrationParser_GetHierarchy(t *testing.T) {
 		})
 	})
 }
+
+func TestIntegrationParser_GetShapes(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When shapes is parsed", func() {
+			err := p.GetShapes(func(_ *models.Shape) error {
+				return nil
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
