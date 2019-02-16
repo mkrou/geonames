@@ -40,9 +40,9 @@
 |✅|modifications-xxxx-xx-xx.txt|GetModifications|
 |✅|no-country.zip|GetGeonames|
 |✅|shapes_all_low.zip|GetShapes|
-|⚠️|shapes_simplified_low.json.zip|I don't see the point in parsing geojson|
+|⚠️|shapes_simplified_low.json.zip|I don't see the point in geojson parsing|
 |✅|timeZones.txt|GetTimeZones|
-|✅|userTags.zip||
+|✅|userTags.zip|GetUserTags|
 
 ## Installation
 
