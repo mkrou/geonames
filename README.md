@@ -19,7 +19,7 @@
 |✅|allCountries.zip|GetGeonames|
 |⚠️|alternateNames.zip|depricated, use alternateNamesV2.zip instead|
 |✅|alternateNamesDeletes-xxxx-xx-xx.txt|GetAlternameDeletes|
-|✅|alternateNamesModifications-xxxx-xx-xx.txt||
+|✅|alternateNamesModifications-xxxx-xx-xx.txt|GetAlternameModifications|
 |✅|alternateNamesV2.zip|GetAlternames|
 |✅|alternatenames/xx.zip|GetAlternames; See [readme](#parsing-alphabetical-list-of-archives)|
 |✅|cities1000.zip|GetGeonames|
@@ -27,7 +27,7 @@
 |✅|cities500.zip|GetGeonames|
 |✅|cities5000.zip|GetGeonames|
 |✅|countryInfo.txt|GetCountries|
-|🚫|deletes-xxxx-xx-xx.txt||
+|✅|deletes-xxxx-xx-xx.txt|GetDeletes|
 |✅|featureCodes_bg.txt|GetFeatureCodes|
 |✅|featureCodes_en.txt|GetFeatureCodes|
 |✅|featureCodes_nb.txt|GetFeatureCodes|

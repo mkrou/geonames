@@ -45,6 +45,7 @@ const (
 	AdminCode5                  string      = "adminCode5.zip"
 	AlternateNamesDeletes       string      = "alternateNamesDeletes-%s.txt"
 	AlternateNamesModifications string      = "alternateNamesModifications-%s.txt"
+	Deletes                     string      = "deletes-%s.txt"
 )
 
 func FormatLastDate(format string) string {
@@ -289,6 +290,22 @@ func (p Parser) GetAlternameModifications(handler func(*models.AlternameModifica
 
 	return p.getFile(FormatLastDate(AlternateNamesModifications), func(parse func(v interface{}) error) error {
 		model := &models.AlternameModification{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, headers...)
+}
+
+func (p Parser) GetDeletes(handler func(*models.GeonameDelete) error) error {
+	headers, err := csvutil.Header(models.GeonameDelete{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getFile(FormatLastDate(Deletes), func(parse func(v interface{}) error) error {
+		model := &models.GeonameDelete{}
 		if err := parse(model); err != nil {
 			return err
 		}
