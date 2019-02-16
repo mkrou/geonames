@@ -41,6 +41,7 @@ const (
 	UserTags          string      = "userTags.zip"
 	AdminDivisions    string      = "admin1CodesASCII.txt"
 	AdminSubDivisions string      = "admin2Codes.txt"
+	AdminCode5        string      = "adminCode5.zip"
 )
 
 func GetLastDate() time.Time {
@@ -116,7 +117,7 @@ func (p Parser) GetAlternames(archive AltNameFile, handler func(*models.Alternam
 	}, headers...)
 }
 
-func (p Parser) GetLanguages(handler func(language *models.Language) error) error {
+func (p Parser) GetLanguages(handler func(*models.Language) error) error {
 	return p.getFile(LangCodes, func(parse func(v interface{}) error) error {
 		model := &models.Language{}
 		if err := parse(model); err != nil {
@@ -127,7 +128,7 @@ func (p Parser) GetLanguages(handler func(language *models.Language) error) erro
 	})
 }
 
-func (p Parser) GetTimeZones(handler func(language *models.TimeZone) error) error {
+func (p Parser) GetTimeZones(handler func(*models.TimeZone) error) error {
 	return p.getFile(TimeZones, func(parse func(v interface{}) error) error {
 		model := &models.TimeZone{}
 		if err := parse(model); err != nil {
@@ -138,7 +139,7 @@ func (p Parser) GetTimeZones(handler func(language *models.TimeZone) error) erro
 	})
 }
 
-func (p Parser) GetCountries(handler func(language *models.Country) error) error {
+func (p Parser) GetCountries(handler func(*models.Country) error) error {
 	headers, err := csvutil.Header(models.Country{}, "csv")
 	if err != nil {
 		return err
@@ -154,7 +155,7 @@ func (p Parser) GetCountries(handler func(language *models.Country) error) error
 	}, headers...)
 }
 
-func (p Parser) GetFeatureCodes(file FeatureCode, handler func(language *models.FeatureCode) error) error {
+func (p Parser) GetFeatureCodes(file FeatureCode, handler func(*models.FeatureCode) error) error {
 	headers, err := csvutil.Header(models.FeatureCode{}, "csv")
 	if err != nil {
 		return err
@@ -170,7 +171,7 @@ func (p Parser) GetFeatureCodes(file FeatureCode, handler func(language *models.
 	}, headers...)
 }
 
-func (p Parser) GetHierarchy(handler func(language *models.Hierarchy) error) error {
+func (p Parser) GetHierarchy(handler func(*models.Hierarchy) error) error {
 	headers, err := csvutil.Header(models.Hierarchy{}, "csv")
 	if err != nil {
 		return err
@@ -186,7 +187,7 @@ func (p Parser) GetHierarchy(handler func(language *models.Hierarchy) error) err
 	}, headers...)
 }
 
-func (p Parser) GetShapes(handler func(language *models.Shape) error) error {
+func (p Parser) GetShapes(handler func(*models.Shape) error) error {
 	return p.getArchive(Shapes, func(parse func(v interface{}) error) error {
 		model := &models.Shape{}
 		if err := parse(model); err != nil {
@@ -197,7 +198,7 @@ func (p Parser) GetShapes(handler func(language *models.Shape) error) error {
 	})
 }
 
-func (p Parser) GetUserTags(handler func(language *models.UserTag) error) error {
+func (p Parser) GetUserTags(handler func(*models.UserTag) error) error {
 	headers, err := csvutil.Header(models.UserTag{}, "csv")
 	if err != nil {
 		return err
@@ -213,7 +214,7 @@ func (p Parser) GetUserTags(handler func(language *models.UserTag) error) error 
 	}, headers...)
 }
 
-func (p Parser) GetAdminDivisions(handler func(language *models.AdminDivision) error) error {
+func (p Parser) GetAdminDivisions(handler func(*models.AdminDivision) error) error {
 	headers, err := csvutil.Header(models.AdminDivision{}, "csv")
 	if err != nil {
 		return err
@@ -229,7 +230,7 @@ func (p Parser) GetAdminDivisions(handler func(language *models.AdminDivision) e
 	}, headers...)
 }
 
-func (p Parser) GetAdminSubdivisions(handler func(language *models.AdminSubdivision) error) error {
+func (p Parser) GetAdminSubdivisions(handler func(*models.AdminSubdivision) error) error {
 	headers, err := csvutil.Header(models.AdminSubdivision{}, "csv")
 	if err != nil {
 		return err
@@ -237,6 +238,22 @@ func (p Parser) GetAdminSubdivisions(handler func(language *models.AdminSubdivis
 
 	return p.getFile(AdminSubDivisions, func(parse func(v interface{}) error) error {
 		model := &models.AdminSubdivision{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, headers...)
+}
+
+func (p Parser) GetAdminCodes5(handler func(*models.AdminCode5) error) error {
+	headers, err := csvutil.Header(models.AdminCode5{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getArchive(AdminCode5, func(parse func(v interface{}) error) error {
+		model := &models.AdminCode5{}
 		if err := parse(model); err != nil {
 			return err
 		}

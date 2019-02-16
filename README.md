@@ -15,7 +15,7 @@
 |✅|xx.zip|GetGeonames; See [readme](#parsing-alphabetical-list-of-archives)|
 |✅|admin1CodesASCII.txt|GetAdminDivisions|
 |✅|admin2Codes.txt|GetAdminSubdivisions|
-|🚫|adminCode5.zip||
+|✅|adminCode5.zip|GetAdminCodes5|
 |✅|allCountries.zip|GetGeonames|
 |⚠️|alternateNames.zip|depricated, use alternateNamesV2.zip instead|
 |🚫|alternateNamesDeletes-xxxx-xx-xx.txt||
@@ -40,7 +40,7 @@
 |🚫|modifications-xxxx-xx-xx.txt||
 |✅|no-country.zip|GetGeonames|
 |✅|shapes_all_low.zip|GetShapes|
-|🚫|shapes_simplified_low.json.zip||
+|⚠️|shapes_simplified_low.json.zip|I don't see the point in parsing geojson|
 |✅|timeZones.txt|GetTimeZones|
 |✅|userTags.zip||
 
