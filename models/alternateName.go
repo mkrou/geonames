@@ -13,11 +13,11 @@ from		  : from period when the name was used
 to		  : to period when the name was used
 */
 
-type Altername struct {
-	Id           int    `csv:"alternateNameId"`
-	GeonameId    int    `csv:"geonameid"`
+type AlternateName struct {
+	Id           int    `csv:"alternateNameId" valid:"required"`
+	GeonameId    int    `csv:"geonameid" valid:"required"`
 	IsoLanguage  string `csv:"isolanguage"`
-	Name         string `csv:"alternate name"`
+	Name         string `csv:"alternate name" valid:"required"`
 	IsPreferred  bool   `csv:"isPreferredName,omitempty"`
 	IsShort      bool   `csv:"isShortName,omitempty"`
 	IsColloquial bool   `csv:"isColloquial,omitempty"`
@@ -26,9 +26,9 @@ type Altername struct {
 	To           Time   `csv:"to"`
 }
 
-func (a *Altername) IsAlpha2() bool {
+func (a *AlternateName) IsAlpha2() bool {
 	return len(a.IsoLanguage) == 2
 }
-func (a *Altername) IsAlpha3() bool {
+func (a *AlternateName) IsAlpha3() bool {
 	return len(a.IsoLanguage) == 3
 }

@@ -18,10 +18,10 @@
 |✅|adminCode5.zip|GetAdminCodes5|
 |✅|allCountries.zip|GetGeonames|
 |⚠️|alternateNames.zip|depricated, use alternateNamesV2.zip instead|
-|✅|alternateNamesDeletes-xxxx-xx-xx.txt|GetAlternameDeletes|
-|✅|alternateNamesModifications-xxxx-xx-xx.txt|GetAlternameModifications|
-|✅|alternateNamesV2.zip|GetAlternames|
-|✅|alternatenames/xx.zip|GetAlternames; See [readme](#parsing-alphabetical-list-of-archives)|
+|✅|alternateNamesDeletes-xxxx-xx-xx.txt|GetAlternateNameDeletes|
+|✅|alternateNamesModifications-xxxx-xx-xx.txt|GetAlternateNameModifications|
+|✅|alternateNamesV2.zip|GetAlternateNames|
+|✅|alternatenames/xx.zip|GetAlternateNames; See [readme](#parsing-alphabetical-list-of-archives)|
 |✅|cities1000.zip|GetGeonames|
 |✅|cities15000.zip|GetGeonames|
 |✅|cities500.zip|GetGeonames|
@@ -92,7 +92,7 @@ import (
 func main() {
     p := geonames.NewParser()
     
-    err := p.GetAlternames(geonames.AlternateNames, func(geoname *models.Altername) error {
+    err := p.GetAlternateNames(geonames.AlternateNames, func(geoname *models.AlternateName) error {
         fmt.Println(geoname.Name)
         return nil
     })
@@ -124,7 +124,7 @@ func main() {
         log.Fatal(err)
     }
     
-    err = p.GetAlternames("alternames/AD.zip", func(geoname *models.Altername) error {
+    err = p.GetAlternateNames("alternames/AD.zip", func(geoname *models.AlternateName) error {
         fmt.Println(geoname.Name)
         return nil
     })

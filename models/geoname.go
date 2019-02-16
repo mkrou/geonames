@@ -23,8 +23,8 @@ modification date : date of last modification in yyyy-MM-dd format
 */
 
 type Geoname struct {
-	Id                    int     `csv:"geonameid"`
-	Name                  string  `csv:"name"`
+	Id                    int     `csv:"geonameid" valid:"required"`
+	Name                  string  `csv:"name" valid:"required"`
 	AsciiName             string  `csv:"asciiname"`
 	AlternateNames        string  `csv:"alternatenames"`
 	Latitude              float64 `csv:"latitude"`
@@ -41,5 +41,5 @@ type Geoname struct {
 	Elevation             int     `csv:"elevation,omitempty"`
 	DigitalElevationModel int     `csv:"dem,omitempty"`
 	Timezone              string  `csv:"timezone"`
-	ModificationDate      Time    `csv:"modification date"`
+	ModificationDate      Time    `csv:"modification date" valid:"required"`
 }
