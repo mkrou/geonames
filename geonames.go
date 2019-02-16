@@ -46,6 +46,7 @@ const (
 	AlternateNamesDeletes       string      = "alternateNamesDeletes-%s.txt"
 	AlternateNamesModifications string      = "alternateNamesModifications-%s.txt"
 	Deletes                     string      = "deletes-%s.txt"
+	Modifications               string      = "modifications-%s.txt"
 )
 
 func FormatLastDate(format string) string {
@@ -306,6 +307,22 @@ func (p Parser) GetDeletes(handler func(*models.GeonameDelete) error) error {
 
 	return p.getFile(FormatLastDate(Deletes), func(parse func(v interface{}) error) error {
 		model := &models.GeonameDelete{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, headers...)
+}
+
+func (p Parser) GetModifications(handler func(*models.Geoname) error) error {
+	headers, err := csvutil.Header(models.Geoname{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getFile(FormatLastDate(Modifications), func(parse func(v interface{}) error) error {
+		model := &models.Geoname{}
 		if err := parse(model); err != nil {
 			return err
 		}

@@ -347,3 +347,23 @@ func TestIntegrationParser_GetDeletes(t *testing.T) {
 		})
 	})
 }
+
+func TestIntegrationParser_GetModifications(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When deletes is parsed", func() {
+			err := p.GetModifications(func(x *models.Geoname) error {
+				return v.ValidateStruct(x,
+					v.Field(&x.Id, v.Required),
+					v.Field(&x.Name, v.Required),
+					v.Field(&x.ModificationDate, v.Required),
+				)
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}

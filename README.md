@@ -37,7 +37,7 @@
 |✅|featureCodes_sv.txt|GetFeatureCodes|
 |✅|hierarchy.zip|GetHierarchy|
 |✅|iso-languagecodes.txt|GetLanguages|
-|🚫|modifications-xxxx-xx-xx.txt||
+|✅|modifications-xxxx-xx-xx.txt|GetModifications|
 |✅|no-country.zip|GetGeonames|
 |✅|shapes_all_low.zip|GetShapes|
 |⚠️|shapes_simplified_low.json.zip|I don't see the point in parsing geojson|
