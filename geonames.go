@@ -20,30 +20,31 @@ type FeatureCode string
 
 //List of dump archives
 const (
-	Cities500             GeoNameFile = "cities500.zip"
-	Cities1000            GeoNameFile = "cities1000.zip"
-	Cities5000            GeoNameFile = "cities5000.zip"
-	Cities15000           GeoNameFile = "cities15000.zip"
-	AllCountries          GeoNameFile = "allCountries.zip"
-	NoCountry             GeoNameFile = "no-country.zip"
-	AlternateNames        AltNameFile = "alternateNamesV2.zip"
-	LangCodes             string      = "iso-languagecodes.txt"
-	TimeZones             string      = "timeZones.txt"
-	Countries             string      = "countryInfo.txt"
-	FeatureCodeBg         FeatureCode = "featureCodes_bg.txt"
-	FeatureCodeEn         FeatureCode = "featureCodes_en.txt"
-	FeatureCodeNb         FeatureCode = "featureCodes_nb.txt"
-	FeatureCodeNn         FeatureCode = "featureCodes_nn.txt"
-	FeatureCodeNo         FeatureCode = "featureCodes_no.txt"
-	FeatureCodeRu         FeatureCode = "featureCodes_ru.txt"
-	FeatureCodeSv         FeatureCode = "featureCodes_sv.txt"
-	Hierarchy             string      = "hierarchy.zip"
-	Shapes                string      = "shapes_all_low.zip"
-	UserTags              string      = "userTags.zip"
-	AdminDivisions        string      = "admin1CodesASCII.txt"
-	AdminSubDivisions     string      = "admin2Codes.txt"
-	AdminCode5            string      = "adminCode5.zip"
-	AlternateNamesDeletes string      = "alternateNamesDeletes-%s.txt"
+	Cities500                   GeoNameFile = "cities500.zip"
+	Cities1000                  GeoNameFile = "cities1000.zip"
+	Cities5000                  GeoNameFile = "cities5000.zip"
+	Cities15000                 GeoNameFile = "cities15000.zip"
+	AllCountries                GeoNameFile = "allCountries.zip"
+	NoCountry                   GeoNameFile = "no-country.zip"
+	AlternateNames              AltNameFile = "alternateNamesV2.zip"
+	LangCodes                   string      = "iso-languagecodes.txt"
+	TimeZones                   string      = "timeZones.txt"
+	Countries                   string      = "countryInfo.txt"
+	FeatureCodeBg               FeatureCode = "featureCodes_bg.txt"
+	FeatureCodeEn               FeatureCode = "featureCodes_en.txt"
+	FeatureCodeNb               FeatureCode = "featureCodes_nb.txt"
+	FeatureCodeNn               FeatureCode = "featureCodes_nn.txt"
+	FeatureCodeNo               FeatureCode = "featureCodes_no.txt"
+	FeatureCodeRu               FeatureCode = "featureCodes_ru.txt"
+	FeatureCodeSv               FeatureCode = "featureCodes_sv.txt"
+	Hierarchy                   string      = "hierarchy.zip"
+	Shapes                      string      = "shapes_all_low.zip"
+	UserTags                    string      = "userTags.zip"
+	AdminDivisions              string      = "admin1CodesASCII.txt"
+	AdminSubDivisions           string      = "admin2Codes.txt"
+	AdminCode5                  string      = "adminCode5.zip"
+	AlternateNamesDeletes       string      = "alternateNamesDeletes-%s.txt"
+	AlternateNamesModifications string      = "alternateNamesModifications-%s.txt"
 )
 
 func FormatLastDate(format string) string {
@@ -264,14 +265,30 @@ func (p Parser) GetAdminCodes5(handler func(*models.AdminCode5) error) error {
 	}, headers...)
 }
 
-func (p Parser) GetAlternameDeletes(handler func(*models.AlternameDeletes) error) error {
-	headers, err := csvutil.Header(models.AlternameDeletes{}, "csv")
+func (p Parser) GetAlternameDeletes(handler func(*models.AlternameDelete) error) error {
+	headers, err := csvutil.Header(models.AlternameDelete{}, "csv")
 	if err != nil {
 		return err
 	}
 
 	return p.getFile(FormatLastDate(AlternateNamesDeletes), func(parse func(v interface{}) error) error {
-		model := &models.AlternameDeletes{}
+		model := &models.AlternameDelete{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, headers...)
+}
+
+func (p Parser) GetAlternameModifications(handler func(*models.AlternameModification) error) error {
+	headers, err := csvutil.Header(models.AlternameModification{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getFile(FormatLastDate(AlternateNamesModifications), func(parse func(v interface{}) error) error {
+		model := &models.AlternameModification{}
 		if err := parse(model); err != nil {
 			return err
 		}

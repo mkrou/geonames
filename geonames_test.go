@@ -294,11 +294,31 @@ func TestIntegrationParser_GetAlternameDeletes(t *testing.T) {
 		p := NewParser()
 
 		Convey("When altername deletes is parsed", func() {
-			err := p.GetAlternameDeletes(func(x *models.AlternameDeletes) error {
+			err := p.GetAlternameDeletes(func(x *models.AlternameDelete) error {
 				return v.ValidateStruct(x,
 					v.Field(&x.Id, v.Required),
 					v.Field(&x.GeonameId, v.Required),
 					v.Field(&x.Name, v.Required),
+				)
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
+
+func TestIntegrationParser_GetAlternameModifications(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When alternames is parsed", func() {
+			err := p.GetAlternameModifications(func(x *models.AlternameModification) error {
+				return v.ValidateStruct(x,
+					v.Field(&x.Id, v.Required),
+					v.Field(&x.Name, v.Required),
+					v.Field(&x.GeonameId, v.Required),
 				)
 			})
 
