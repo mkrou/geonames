@@ -1,6 +1,7 @@
 package geonames
 
 import (
+	"fmt"
 	"github.com/jszwec/csvutil"
 	"github.com/mkrou/geonames/models"
 	"github.com/mkrou/geonames/stream"
@@ -19,35 +20,36 @@ type FeatureCode string
 
 //List of dump archives
 const (
-	Cities500         GeoNameFile = "cities500.zip"
-	Cities1000        GeoNameFile = "cities1000.zip"
-	Cities5000        GeoNameFile = "cities5000.zip"
-	Cities15000       GeoNameFile = "cities15000.zip"
-	AllCountries      GeoNameFile = "allCountries.zip"
-	NoCountry         GeoNameFile = "no-country.zip"
-	AlternateNames    AltNameFile = "alternateNamesV2.zip"
-	LangCodes         string      = "iso-languagecodes.txt"
-	TimeZones         string      = "timeZones.txt"
-	Countries         string      = "countryInfo.txt"
-	FeatureCodeBg     FeatureCode = "featureCodes_bg.txt"
-	FeatureCodeEn     FeatureCode = "featureCodes_en.txt"
-	FeatureCodeNb     FeatureCode = "featureCodes_nb.txt"
-	FeatureCodeNn     FeatureCode = "featureCodes_nn.txt"
-	FeatureCodeNo     FeatureCode = "featureCodes_no.txt"
-	FeatureCodeRu     FeatureCode = "featureCodes_ru.txt"
-	FeatureCodeSv     FeatureCode = "featureCodes_sv.txt"
-	Hierarchy         string      = "hierarchy.zip"
-	Shapes            string      = "shapes_all_low.zip"
-	UserTags          string      = "userTags.zip"
-	AdminDivisions    string      = "admin1CodesASCII.txt"
-	AdminSubDivisions string      = "admin2Codes.txt"
-	AdminCode5        string      = "adminCode5.zip"
+	Cities500             GeoNameFile = "cities500.zip"
+	Cities1000            GeoNameFile = "cities1000.zip"
+	Cities5000            GeoNameFile = "cities5000.zip"
+	Cities15000           GeoNameFile = "cities15000.zip"
+	AllCountries          GeoNameFile = "allCountries.zip"
+	NoCountry             GeoNameFile = "no-country.zip"
+	AlternateNames        AltNameFile = "alternateNamesV2.zip"
+	LangCodes             string      = "iso-languagecodes.txt"
+	TimeZones             string      = "timeZones.txt"
+	Countries             string      = "countryInfo.txt"
+	FeatureCodeBg         FeatureCode = "featureCodes_bg.txt"
+	FeatureCodeEn         FeatureCode = "featureCodes_en.txt"
+	FeatureCodeNb         FeatureCode = "featureCodes_nb.txt"
+	FeatureCodeNn         FeatureCode = "featureCodes_nn.txt"
+	FeatureCodeNo         FeatureCode = "featureCodes_no.txt"
+	FeatureCodeRu         FeatureCode = "featureCodes_ru.txt"
+	FeatureCodeSv         FeatureCode = "featureCodes_sv.txt"
+	Hierarchy             string      = "hierarchy.zip"
+	Shapes                string      = "shapes_all_low.zip"
+	UserTags              string      = "userTags.zip"
+	AdminDivisions        string      = "admin1CodesASCII.txt"
+	AdminSubDivisions     string      = "admin2Codes.txt"
+	AdminCode5            string      = "adminCode5.zip"
+	AlternateNamesDeletes string      = "alternateNamesDeletes-%s.txt"
 )
 
-func GetLastDate() time.Time {
-	t := time.Now()
+func FormatLastDate(format string) string {
 	loc, _ := time.LoadLocation("CET")
-	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, loc)
+	t := time.Now().In(loc).AddDate(0, 0, -1)
+	return fmt.Sprintf(format, t.Format("2006-01-02"))
 }
 
 type Parser func(file string) (io.ReadCloser, error)
@@ -254,6 +256,22 @@ func (p Parser) GetAdminCodes5(handler func(*models.AdminCode5) error) error {
 
 	return p.getArchive(AdminCode5, func(parse func(v interface{}) error) error {
 		model := &models.AdminCode5{}
+		if err := parse(model); err != nil {
+			return err
+		}
+
+		return handler(model)
+	}, headers...)
+}
+
+func (p Parser) GetAlternameDeletes(handler func(*models.AlternameDeletes) error) error {
+	headers, err := csvutil.Header(models.AlternameDeletes{}, "csv")
+	if err != nil {
+		return err
+	}
+
+	return p.getFile(FormatLastDate(AlternateNamesDeletes), func(parse func(v interface{}) error) error {
+		model := &models.AlternameDeletes{}
 		if err := parse(model); err != nil {
 			return err
 		}

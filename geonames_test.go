@@ -288,3 +288,23 @@ func TestIntegrationParser_GetAdminCode5(t *testing.T) {
 		})
 	})
 }
+
+func TestIntegrationParser_GetAlternameDeletes(t *testing.T) {
+	Convey("Given a default parser", t, func() {
+		p := NewParser()
+
+		Convey("When altername deletes is parsed", func() {
+			err := p.GetAlternameDeletes(func(x *models.AlternameDeletes) error {
+				return v.ValidateStruct(x,
+					v.Field(&x.Id, v.Required),
+					v.Field(&x.GeonameId, v.Required),
+					v.Field(&x.Name, v.Required),
+				)
+			})
+
+			Convey("The error should be nill", func() {
+				So(err, ShouldBeNil)
+			})
+		})
+	})
+}
