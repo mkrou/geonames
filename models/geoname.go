@@ -33,7 +33,7 @@ type Geoname struct {
 	Code                  string  `csv:"feature code"`
 	CountryCode           string  `csv:"country code"`
 	AlternateCountryCodes string  `csv:"cc2"`
-	Admin1Code            string  `csv:"admin1 code`
+	Admin1Code            string  `csv:"admin1 code"`
 	Admin2Code            string  `csv:"admin2 code"`
 	Admin3Code            string  `csv:"admin3 code"`
 	Admin4Code            string  `csv:"admin4 code"`
